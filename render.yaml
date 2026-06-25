@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: san-tan-family-pulse
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        scope: build
+        sync: false
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1

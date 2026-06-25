@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>San Tan Family Pulse — East Valley Family Newsletter</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#FAFAF8;color:#1A1A1A}
+.header{background:#2D6A4F;color:#fff;padding:40px 20px;text-align:center}
+.header h1{font-size:clamp(28px,5vw,48px);font-weight:800;margin-bottom:8px}
+.header p{font-size:14px;opacity:.85;font-style:italic}
+.nav{background:#fff;border-bottom:1px solid #E0DDD8;padding:16px 20px;display:flex;gap:16px;max-width:1200px;margin:0 auto;flex-wrap:wrap}
+.nav button{background:none;border:none;color:#2D6A4F;font-weight:500;font-size:14px;padding:8px 16px;border-radius:4px;cursor:pointer;transition:all .2s}
+.nav button:hover{background:#EAF3EE}
+.nav button.active{background:#2D6A4F;color:#fff}
+.container{max-width:1200px;margin:0 auto;padding:32px 20px}
+
+/* CITY GRID */
+.city-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:40px}
+.city-card{background:#fff;border:2px solid #E0DDD8;border-radius:8px;padding:28px;text-align:center;cursor:pointer;transition:all .3s;text-decoration:none;color:#1A1A1A}
+.city-card:hover{border-color:#2D6A4F;box-shadow:0 8px 24px rgba(45,106,79,0.15);transform:translateY(-4px)}
+.city-card h2{font-size:24px;font-weight:700;color:#2D6A4F;margin-bottom:12px}
+.city-card p{font-size:13px;color:#7A7A7A;margin-bottom:16px}
+.city-card .status{font-size:12px;padding:6px 12px;background:#EDF3FA;color:#2A6096;border-radius:20px;display:inline-block}
+
+/* EDITION VIEW */
+.edition-view{background:#fff;border:1px solid #E0DDD8;border-radius:8px;padding:32px;margin-bottom:40px;display:none}
+.edition-view.active{display:block}
+.back-button{background:none;border:none;color:#2D6A4F;cursor:pointer;font-weight:600;margin-bottom:24px;font-size:14px}
+.back-button:hover{text-decoration:underline}
+.edition-meta{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.edition-meta span{font-size:13px;color:#7A7A7A}
+.edition-greeting{font-size:20px;font-weight:700;margin-bottom:16px;color:#1A1A1A}
+.edition-intro{font-size:14px;line-height:1.8;color:#3D3D3D;margin-bottom:24px}
+.weather-note{background:#EDF3FA;border-left:4px solid #2A6096;padding:16px;margin-bottom:24px;border-radius:4px;font-size:13px;color:#2A6096}
+.newsletter-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:32px}
+.section{background:#FAFAF8;border-radius:8px;padding:20px}
+.section-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:#2D6A4F;margin-bottom:16px;border-bottom:2px solid #2D6A4F;padding-bottom:8px}
+.item{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #E0DDD8}
+.item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.item-name{font-size:14px;font-weight:600;color:#1A1A1A;margin-bottom:6px}
+.item-name-with-link{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.item-name{font-size:14px;font-weight:600;color:#1A1A1A}
+.item-link{color:#2D6A4F;text-decoration:none;font-weight:600;font-size:14px}
+.item-link:hover{text-decoration:underline}
+.item-address{font-size:12px;color:#7A7A7A;margin-bottom:6px;font-style:italic}
+.item-body{font-size:13px;line-height:1.7;color:#3D3D3D;margin-bottom:8px}
+.item-image{max-width:100%;height:auto;border-radius:4px;margin-bottom:10px;max-height:250px;object-fit:cover}
+.cta-buttons{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn{padding:10px 20px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:600;text-decoration:none;display:inline-block}
+.btn-primary{background:#2D6A4F;color:#fff}
+.btn-primary:hover{background:#1E5038}
+
+/* ARCHIVE */
+.archive-section{display:none}
+.archive-section.active{display:block}
+.archive-section h2{font-size:22px;font-weight:700;margin-bottom:24px;color:#1A1A1A}
+.archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.archive-card{background:#fff;border:1px solid #E0DDD8;border-radius:8px;padding:16px;cursor:pointer;transition:all .2s}
+.archive-card:hover{border-color:#2D6A4F;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.archive-city{font-size:14px;font-weight:600;color:#2D6A4F;margin-bottom:6px}
+.archive-date{font-size:12px;color:#7A7A7A}
+
+/* WORKS CITED */
+.works-cited{display:none}
+.works-cited.active{display:block}
+.sources-list{background:#fff;border:1px solid #E0DDD8;border-radius:8px;padding:24px}
+.source-item{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid #E0DDD8}
+.source-item:last-child{border-bottom:none}
+.source-title{font-weight:600;color:#2D6A4F;margin-bottom:8px}
+.source-url{display:block;font-size:12px;color:#0066CC;text-decoration:none;word-break:break-all}
+.source-url:hover{text-decoration:underline}
+
+.loading{text-align:center;padding:40px;color:#7A7A7A}
+.error{background:#FEF2F2;border:1px solid #FCA5A5;border-radius:8px;padding:16px;color:#991B1B;margin-bottom:24px}
+.footer{background:#1A1A1A;color:#fff;text-align:center;padding:24px;font-size:12px;margin-top:60px}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>San Tan Family Pulse 🌵</h1>
+  <p>Hand-picked events, eats, and things to do for East Valley families</p>
+</header>
+
+<nav class="nav">
+  <button onclick="showCities()" class="active">Choose City</button>
+  <button onclick="showArchive()">Archive</button>
+  <button onclick="showWorksCited()">Works Cited</button>
+</nav>
+
+<div class="container">
+  
+  <!-- CITY SELECTION -->
+  <div id="city-selection">
+    <div class="city-grid">
+      <div class="city-card" onclick="loadCity('Gilbert')">
+        <h2>Gilbert</h2>
+        <p>Latest family events & activities</p>
+        <span class="status">View</span>
+      </div>
+      <div class="city-card" onclick="loadCity('Chandler')">
+        <h2>Chandler</h2>
+        <p>Latest family events & activities</p>
+        <span class="status">View</span>
+      </div>
+      <div class="city-card" onclick="loadCity('Queen Creek')">
+        <h2>Queen Creek</h2>
+        <p>Latest family events & activities</p>
+        <span class="status">View</span>
+      </div>
+      <div class="city-card" onclick="loadCity('San Tan Valley')">
+        <h2>San Tan Valley</h2>
+        <p>Latest family events & activities</p>
+        <span class="status">View</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDITION VIEW -->
+  <div id="edition-view" class="edition-view">
+    <button class="back-button" onclick="showCities()">← Back to Cities</button>
+    <div id="edition-content"></div>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div class="archive-section" id="archive">
+    <h2>All Past Editions</h2>
+    <div class="archive-grid" id="archive-grid">
+      <div class="loading">Loading...</div>
+    </div>
+  </div>
+
+  <!-- WORKS CITED -->
+  <div class="works-cited" id="works-cited">
+    <h2>Works Cited & Sources</h2>
+    <div class="sources-list">
+      <div class="source-item">
+        <div class="source-title">Macaroni KID Gilbert</div>
+        <a href="https://gilbert.macaronikid.com" class="source-url">gilbert.macaronikid.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Macaroni KID Chandler</div>
+        <a href="https://chandler.macaronikid.com" class="source-url">chandler.macaronikid.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Macaroni KID Queen Creek</div>
+        <a href="https://queencreek.macaronikid.com" class="source-url">queencreek.macaronikid.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Your Valley</div>
+        <a href="https://yourvalley.net" class="source-url">yourvalley.net</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Phoenix Magazine</div>
+        <a href="https://phoenixmag.com" class="source-url">phoenixmag.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">AZCentral</div>
+        <a href="https://azcentral.com" class="source-url">azcentral.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Queen Creek Tribune</div>
+        <a href="https://queencreektribune.com" class="source-url">queencreektribune.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Discover Gilbert</div>
+        <a href="https://discovergilbert.com" class="source-url">discovergilbert.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Visit Chandler</div>
+        <a href="https://visitchandler.com" class="source-url">visitchandler.com</a>
+      </div>
+      <div class="source-item">
+        <div class="source-title">Queen Creek Chamber of Commerce</div>
+        <a href="https://queencreekchamber.com" class="source-url">queencreekchamber.com</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <strong>San Tan Family Pulse 🌵</strong><br/>
+  The weekly family guide for Gilbert, Chandler, Queen Creek & San Tan Valley<br/>
+  Built on Claude AI · Inspired by the Scottsdale Scoop
+</footer>
+
+<script>
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function showCities(){
+  document.getElementById('city-selection').style.display='block';
+  document.getElementById('edition-view').classList.remove('active');
+  document.getElementById('archive').classList.remove('active');
+  document.getElementById('works-cited').classList.remove('active');
+  updateNav('cities');
+}
+
+function showArchive(){
+  document.getElementById('city-selection').style.display='none';
+  document.getElementById('edition-view').classList.remove('active');
+  document.getElementById('archive').classList.add('active');
+  document.getElementById('works-cited').classList.remove('active');
+  loadArchive();
+  updateNav('archive');
+}
+
+function showWorksCited(){
+  document.getElementById('city-selection').style.display='none';
+  document.getElementById('edition-view').classList.remove('active');
+  document.getElementById('archive').classList.remove('active');
+  document.getElementById('works-cited').classList.add('active');
+  updateNav('works');
+}
+
+function updateNav(active){
+  const btns = document.querySelectorAll('.nav button');
+  btns.forEach(b=>b.classList.remove('active'));
+  if(active==='cities') btns[0].classList.add('active');
+  if(active==='archive') btns[1].classList.add('active');
+  if(active==='works') btns[2].classList.add('active');
+}
+
+async function loadCity(city){
+  try {
+    const res = await fetch('/api/latest?city=' + encodeURIComponent(city));
+    const data = await res.json();
+    if(data.error) {
+      document.getElementById('edition-content').innerHTML = `<div class="error">No published edition for ${esc(city)} yet.</div>`;
+    } else {
+      renderEdition(data.data || data, data.id);
+    }
+    document.getElementById('city-selection').style.display='none';
+    document.getElementById('edition-view').classList.add('active');
+    updateNav('cities');
+  } catch(err) {
+    document.getElementById('edition-content').innerHTML = `<div class="error">Error: ${esc(err.message)}</div>`;
+  }
+}
+
+async function loadArchive(){
+  try {
+    const res = await fetch('/api/editions');
+    const editions = await res.json();
+    if(!editions || editions.length===0) {
+      document.getElementById('archive-grid').innerHTML='<p style="grid-column:1/-1;color:#7A7A7A">No archived editions yet.</p>';
+      return;
+    }
+    document.getElementById('archive-grid').innerHTML = editions.map(e => `
+      <div class="archive-card" onclick="viewEdition(${e.id})">
+        <div class="archive-city">${esc(e.city)}</div>
+        <div class="archive-date">Week of ${esc(e.week_of)}</div>
+      </div>
+    `).join('');
+  } catch(err) {
+    document.getElementById('archive-grid').innerHTML = `<div class="error" style="grid-column:1/-1">Error: ${esc(err.message)}</div>`;
+  }
+}
+
+async function viewEdition(id){
+  try {
+    const res = await fetch('/api/editions/'+id);
+    const data = await res.json();
+    renderEdition(data, id);
+    document.getElementById('city-selection').style.display='none';
+    document.getElementById('edition-view').classList.add('active');
+    document.getElementById('archive').classList.remove('active');
+    updateNav('archive');
+  } catch(err) {
+    alert('Error: '+err.message);
+  }
+}
+
+function renderEdition(edition, id){
+  const sections = [
+    { title:'📅 Events This Week', items:edition.events },
+    { title:'🍽️ Food & Restaurant News', items:edition.dining },
+    { title:'🏃 Things to Do with Kids', items:edition.activities },
+    { title:'🏡 Around the Neighborhood', items:edition.community }
+  ];
+
+  const html = `
+    <div class="edition-meta">
+      <span>Week of ${esc(edition.week_of)}</span>
+      <span>${esc(edition.city)}</span>
+    </div>
+    <div class="edition-greeting">Good morning, ${esc(edition.city)}! 👋</div>
+    <div class="edition-intro">${esc(edition.greeting)}</div>
+    ${edition.weather ? `<div class="weather-note">☀️ ${esc(edition.weather)}</div>` : ''}
+    <div class="newsletter-content">
+      ${sections.map(s => s.items?.length ? `
+        <div class="section">
+          <div class="section-title">${s.title}</div>
+          ${s.items.map(item => `
+            <div class="item">
+              ${item.image ? `<img src="${esc(item.image)}" alt="${esc(item.name)}" class="item-image" onerror="this.style.display='none'">` : ''}
+              <div class="item-name-with-link">
+                ${item.url ? `<a href="${esc(item.url)}" target="_blank" class="item-link">${esc(item.name)}</a>` : `<div class="item-name">${esc(item.name)}</div>`}
+              </div>
+              ${item.address ? `<div class="item-address">${esc(item.address)}</div>` : ''}
+              <div class="item-body">${esc(item.body)}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : '').join('')}
+    </div>
+    <div class="cta-buttons">
+      <a href="/api/editions/${id}/pdf" class="btn btn-primary" download>📄 Download PDF</a>
+      <a href="/api/editions/${id}/html" class="btn btn-secondary" target="_blank">📧 View as Email</a>
+    </div>
+  `;
+  document.getElementById('edition-content').innerHTML = html;
+}
+</script>
+
+</body>
+</html>

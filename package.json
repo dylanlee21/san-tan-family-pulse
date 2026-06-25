@@ -1,0 +1,21 @@
+{
+  "name": "san-tan-family-pulse",
+  "version": "1.0.0",
+  "description": "AI-powered autonomous family newsletter for East Valley Arizona",
+  "main": "server-cloud.js",
+  "scripts": {
+    "start": "node server-cloud.js",
+    "dev": "nodemon server-cloud.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.0",
+    "pg": "^8.10.0",
+    "node-cron": "^3.0.2",
+    "pdfkit": "^0.13.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
