@@ -170,9 +170,6 @@ async function previewDraft(id) {
     renderPreview(data, false);
     document.getElementById('preview-modal').classList.add('active');
     document.getElementById('edit-toggle').textContent = '✏️ Edit';
-    document.getElementById('pdf-export').href = '/api/editions/' + id + '/pdf';
-    document.getElementById('html-export').href = '/api/editions/' + id + '/html';
-    document.getElementById('html-export').target = '_blank';
   } catch (e) {
     alert('Error: ' + e.message);
   }

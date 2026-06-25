@@ -79,10 +79,10 @@ async function generateNewsletter(city) {
 - name: Business or event name
 - address: Full address if available
 - url: Business website (working site only, or empty string)
-- image: Image URL from business website or Google Images. Must be a real, working image URL. If unsure, use empty string.
+- image: Search for a high-quality image URL of the business/event/place. Look for images from Google Images, Yelp, TripAdvisor, or the business website. Must be a real, working image URL that displays the business, product, or venue. Examples: https://example.com/photo.jpg. Include images whenever possible - they make the newsletter visually appealing. If you cannot find a working image URL, use empty string.
 - body: Description (2-3 sentences)
 
-Only include image URLs you're confident work. Empty string is better than a broken link.`
+PRIORITY: Include images for every item. Search specifically for "[business name] photo", "[event name] image", or "[place name] picture" to find good URLs.`
     }]
   });
 
